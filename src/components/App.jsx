@@ -1,11 +1,10 @@
 /** @format */
 
-import { ToastContainer } from 'react-toastify';
+import { Toaster } from 'react-hot-toast';
 import Filter from './Filter';
 import ContactList from './ContactList';
 import ContactForm from './ContactForm';
 import { Container, TitleName } from './App.styled';
-import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
 	return (
@@ -20,7 +19,18 @@ function App() {
 
 			<ContactList />
 
-			<ToastContainer position='top-right' autoClose={5000} hideProgressBar={false} />
+			<Toaster
+				position='top-right'
+				reverseOrder={false}
+				gutter={8}
+				toastOptions={{
+					duration: 5000,
+					style: {
+						background: '#fdfbea',
+						color: '#000000',
+					},
+				}}
+			/>
 		</Container>
 	);
 }

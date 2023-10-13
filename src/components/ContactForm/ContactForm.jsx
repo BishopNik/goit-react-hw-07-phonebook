@@ -1,17 +1,25 @@
 /** @format */
 
-import { nanoid } from 'nanoid';
+import { useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Formik } from 'formik';
-import { contactsState } from '../../redux/selectors';
-import { addContact } from '../../redux/contactsSlice';
+import { contactsState, statusLoadingState } from 'redux/selectors';
+import { fetchPostContact } from 'redux/fetchApi';
 import { toastWindow } from '../Helpers';
 import * as yup from 'yup';
-import { Label, FormikContact, InputFormik, AddButton } from './ContactForm.styled.jsx';
+import {
+	Label,
+	FormikContact,
+	InputFormik,
+	AddButton,
+	CancelButton,
+} from './ContactForm.styled.jsx';
 
 function ContactForm({ onSubmitForm }) {
 	const dispatch = useDispatch();
 	const contacts = useSelector(contactsState);
+	const statusLoading = useSelector(statusLoadingState);
+	const cancelAddContact = useRef(null);
 
 	const schema = yup.object({
 		name: yup.string().min(2).required('Name is required'),
@@ -33,9 +41,7 @@ function ContactForm({ onSubmitForm }) {
 			status = false;
 			return status;
 		}
-
-		dispatch(addContact({ id: nanoid(), name, number }));
-
+		cancelAddContact.current = dispatch(fetchPostContact({ name, number }));
 		return status;
 	};
 
@@ -86,9 +92,19 @@ function ContactForm({ onSubmitForm }) {
 						/>
 					</Label>
 
-					<AddButton type='submit' onClick={handleClick}>
+					<AddButton type='submit' onClick={handleClick} disabled={statusLoading}>
 						Add contact
 					</AddButton>
+					<CancelButton
+						type='button'
+						disabled={!statusLoading}
+						onClick={e => {
+							handleClick(e);
+							cancelAddContact.current?.abort();
+						}}
+					>
+						❌
+					</CancelButton>
 				</FormikContact>
 			</Formik>
 		</>

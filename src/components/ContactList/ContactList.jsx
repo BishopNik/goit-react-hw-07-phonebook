@@ -1,32 +1,30 @@
 /** @format */
 
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { ContactContainer, Contact, DelDutton } from './ContactList.styled';
-import { filterState, contactsState } from '../../redux/selectors';
-import { delContact } from '../../redux/contactsSlice';
+import Contact from '../Contact';
+import { ContactContainer } from './ContactList.styled';
+import { filterState, contactsState } from 'redux/selectors';
+import { fetchAllContacts } from 'redux/fetchApi';
 
 function ContactList() {
 	const dispatch = useDispatch();
 	const filterValue = useSelector(filterState);
 	const contacts = useSelector(contactsState);
-	const filteredContacts = contacts.filter(contact =>
+
+	const filteredContacts = contacts?.filter(contact =>
 		contact.name.toLowerCase().includes(filterValue?.toLowerCase())
 	);
 
+	useEffect(() => {
+		dispatch(fetchAllContacts());
+	}, [dispatch]);
+
 	return (
 		<>
-			{filteredContacts.map(({ id, name, number }) => (
+			{filteredContacts?.reverse().map(({ id, name, number }) => (
 				<ContactContainer key={id}>
-					<Contact>
-						{name} {number}
-					</Contact>
-					<DelDutton
-						id={id}
-						type='submit'
-						onClick={({ target }) => dispatch(delContact(target.id))}
-					>
-						Delete
-					</DelDutton>
+					<Contact id={id} name={name} number={number} />
 				</ContactContainer>
 			))}
 		</>

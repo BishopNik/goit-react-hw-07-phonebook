@@ -1,14 +1,12 @@
 /** @format */
 
 import styled from 'styled-components';
+import { Field, Form } from 'formik';
 
-export const ContactContainer = styled.div`
+export const FormBox = styled(Form)`
 	display: flex;
-	width: fit-content;
 	align-items: center;
-	padding: ${p => p.theme.spacing(1)} 30px;
-	outline: 1px solid lightgray;
-	margin-bottom: 5px;
+	padding: 10px;
 `;
 
 export const ButtonsContainer = styled.div`
@@ -16,7 +14,13 @@ export const ButtonsContainer = styled.div`
 	gap: 10px;
 `;
 
-export const Contact = styled.p`
+export const InputContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+`;
+
+export const ContactInput = styled(Field)`
+	width: 360px;
 	margin: 0;
 	margin-right: auto;
 	padding-top: ${p => p.theme.spacing(3)};
@@ -25,6 +29,8 @@ export const Contact = styled.p`
 	padding-right: ${p => p.theme.spacing(3)};
 	font-size: 24px;
 	color: darkblue;
+	border: none;
+	background-color: transparent;
 `;
 
 export const Button = styled.button`
@@ -41,4 +47,19 @@ export const Button = styled.button`
 		background-color: antiquewhite;
 		transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
 	}
+`;
+
+export const Label = styled.label`
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 15px;
+	margin-right: 20px;
+	width: fit-content;
+	font-size: 24px;
+	font-weight: 600;
+`;
+
+export const LabelName = styled.span`
+	width: 85px;
 `;
