@@ -12,9 +12,11 @@ function ContactList() {
 	const filterValue = useSelector(filterState);
 	const contacts = useSelector(contactsState);
 
-	const filteredContacts = contacts?.filter(contact =>
-		contact.name.toLowerCase().includes(filterValue?.toLowerCase())
-	);
+	const filteredContacts = contacts
+		? contacts.filter(contact =>
+				contact.name.toLowerCase().includes(filterValue?.toLowerCase())
+		  )
+		: [];
 
 	useEffect(() => {
 		dispatch(fetchAllContacts());

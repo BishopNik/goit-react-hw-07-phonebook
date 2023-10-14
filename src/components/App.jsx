@@ -1,12 +1,24 @@
 /** @format */
 
 import { Toaster } from 'react-hot-toast';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { statusError } from 'redux/selectors';
+import { resetError } from 'redux/contactsSlice';
 import Filter from './Filter';
 import ContactList from './ContactList';
 import ContactForm from './ContactForm';
 import { Container, TitleName } from './App.styled';
+import { toastWindow } from './Helpers';
 
 function App() {
+	const error = useSelector(statusError);
+	const dispatch = useDispatch();
+	useEffect(() => {
+		if (error !== null) toastWindow(`Error loading contacts: ${error}`);
+		dispatch(resetError());
+	}, [dispatch, error]);
+
 	return (
 		<Container>
 			<TitleName>Phonebook</TitleName>

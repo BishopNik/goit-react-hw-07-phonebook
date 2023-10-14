@@ -5,8 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Formik } from 'formik';
 import { contactsState, statusLoadingState } from 'redux/selectors';
 import { fetchPostContact } from 'redux/fetchApi';
-import { toastWindow } from '../Helpers';
-import * as yup from 'yup';
+import { toastWindow, animationButton, checkContact, schema } from '../Helpers';
 import {
 	Label,
 	FormikContact,
@@ -21,27 +20,11 @@ function ContactForm({ onSubmitForm }) {
 	const statusLoading = useSelector(statusLoadingState);
 	const cancelAddContact = useRef(null);
 
-	const schema = yup.object({
-		name: yup.string().min(2).required('Name is required'),
-		number: yup.string().min(6).max(13).required('Number is required'),
-	});
-
-	const handleClick = ({ target }) => {
-		target.style.scale = '0.9';
-		setTimeout(() => (target.style.scale = '1'), 80);
-	};
-
 	const handleAddContact = ({ name, number }) => {
-		let status = true;
-		const checkName = contacts.find(
-			contact => contact.name.toLowerCase() === name.toLowerCase()
-		);
-		if (checkName) {
-			toastWindow(`${checkName.name} is already in contacts.`);
-			status = false;
-			return status;
-		}
-		cancelAddContact.current = dispatch(fetchPostContact({ name, number }));
+		const status = checkContact(contacts, name);
+		if (!status) {
+			cancelAddContact.current = dispatch(fetchPostContact({ name, number }));
+		} else toastWindow(`${name} is already in contacts.`);
 		return status;
 	};
 
@@ -49,7 +32,7 @@ function ContactForm({ onSubmitForm }) {
 		schema
 			.validate(contact)
 			.then(() => {
-				handleAddContact(contact) && actions.resetForm();
+				!handleAddContact(contact) && actions.resetForm();
 			})
 			.catch(validationErrors => {
 				toastWindow(`Error: ${validationErrors.errors}`);
@@ -92,14 +75,14 @@ function ContactForm({ onSubmitForm }) {
 						/>
 					</Label>
 
-					<AddButton type='submit' onClick={handleClick} disabled={statusLoading}>
+					<AddButton type='submit' onClick={animationButton} disabled={statusLoading}>
 						Add contact
 					</AddButton>
 					<CancelButton
 						type='button'
 						disabled={!statusLoading}
 						onClick={e => {
-							handleClick(e);
+							animationButton(e);
 							cancelAddContact.current?.abort();
 						}}
 					>

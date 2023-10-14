@@ -13,7 +13,11 @@ const initialState = {
 export const contactsSlice = createSlice({
 	name: 'contacts',
 	initialState,
-	reducers: {},
+	reducers: {
+		resetError: state => {
+			state.error = null;
+		},
+	},
 	extraReducers: builder => {
 		builder
 			.addCase(fetchAllContacts.pending, state => {
@@ -24,9 +28,9 @@ export const contactsSlice = createSlice({
 				state.error = null;
 				state.items = payload;
 			})
-			.addCase(fetchAllContacts.rejected, (state, { payload }) => {
+			.addCase(fetchAllContacts.rejected, (state, { error }) => {
 				state.isLoading = false;
-				state.error = payload;
+				state.error = error.message;
 			})
 			.addCase(fetchDelContact.pending, state => {
 				state.isLoading = true;
@@ -36,9 +40,9 @@ export const contactsSlice = createSlice({
 				state.error = null;
 				state.items = state.items.filter(item => item.id !== payload.id);
 			})
-			.addCase(fetchDelContact.rejected, (state, { payload }) => {
+			.addCase(fetchDelContact.rejected, (state, { error }) => {
 				state.isLoading = false;
-				state.error = payload;
+				state.error = error.message;
 			})
 			.addCase(fetchPostContact.pending, state => {
 				state.isLoading = true;
@@ -48,9 +52,9 @@ export const contactsSlice = createSlice({
 				state.error = null;
 				state.items = [...state.items, payload];
 			})
-			.addCase(fetchPostContact.rejected, (state, { payload }) => {
+			.addCase(fetchPostContact.rejected, (state, { error }) => {
 				state.isLoading = false;
-				state.error = payload;
+				state.error = error.message;
 			})
 			.addCase(fetchPutContact.pending, state => {
 				state.isLoading = true;
@@ -63,11 +67,13 @@ export const contactsSlice = createSlice({
 					return item;
 				});
 			})
-			.addCase(fetchPutContact.rejected, (state, { payload }) => {
+			.addCase(fetchPutContact.rejected, (state, { error }) => {
 				state.isLoading = false;
-				state.error = payload;
+				state.error = error.message;
 			});
 	},
 });
 
 export const contactsReducer = contactsSlice.reducer;
+
+export const { resetError } = contactsSlice.actions;
