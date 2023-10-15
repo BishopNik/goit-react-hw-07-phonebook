@@ -5,8 +5,10 @@ import { Field, Form } from 'formik';
 
 export const FormBox = styled(Form)`
 	display: flex;
-	align-items: center;
-	padding: 10px;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-start;
+	gap: ${p => p.theme.spacing(3)};
 `;
 
 export const ButtonsContainer = styled.div`
@@ -17,20 +19,23 @@ export const ButtonsContainer = styled.div`
 export const InputContainer = styled.div`
 	display: flex;
 	flex-direction: column;
+	gap: 4px;
 `;
 
 export const ContactInput = styled(Field)`
-	width: 360px;
+	width: 220px;
 	margin: 0;
 	margin-right: auto;
-	padding-top: ${p => p.theme.spacing(3)};
-	padding-bottom: ${p => p.theme.spacing(3)};
-	padding-left: ${p => p.theme.spacing(3)};
-	padding-right: ${p => p.theme.spacing(3)};
+	padding: ${p => p.theme.spacing(3)};
 	font-size: 24px;
 	color: darkblue;
 	border: none;
 	background-color: transparent;
+	border-radius: 6px;
+
+	&:focus {
+		outline: 1px solid red;
+	}
 `;
 
 export const Button = styled.button`
@@ -54,10 +59,10 @@ export const Label = styled.label`
 	justify-content: space-between;
 	align-items: center;
 	gap: 15px;
-	margin-right: 20px;
 	width: fit-content;
 	font-size: 24px;
 	font-weight: 600;
+	border-radius: 6px;
 `;
 
 export const LabelName = styled.span`

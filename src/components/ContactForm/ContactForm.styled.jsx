@@ -5,6 +5,8 @@ import { Field, Form } from 'formik';
 
 export const FormikContact = styled(Form)`
 	box-sizing: border-box;
+	margin-left: auto;
+	margin-right: auto;
 	padding: 40px 55px;
 	border: 1px solid rgba(0, 0, 0, 0.7);
 	border-radius: ${p => p.theme.spacing(4)};

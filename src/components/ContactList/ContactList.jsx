@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Contact from '../Contact';
-import { ContactContainer } from './ContactList.styled';
+import { ContactContainer, ContactsBox } from './ContactList.styled';
 import { filterState, contactsState } from 'redux/selectors';
 import { fetchAllContacts } from 'redux/fetchApi';
 
@@ -23,13 +23,13 @@ function ContactList() {
 	}, [dispatch]);
 
 	return (
-		<>
+		<ContactsBox>
 			{filteredContacts?.reverse().map(({ id, name, number }) => (
 				<ContactContainer key={id}>
 					<Contact id={id} name={name} number={number} />
 				</ContactContainer>
 			))}
-		</>
+		</ContactsBox>
 	);
 }
 

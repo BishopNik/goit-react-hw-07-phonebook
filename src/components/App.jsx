@@ -8,7 +8,7 @@ import { resetError } from 'redux/contactsSlice';
 import Filter from './Filter';
 import ContactList from './ContactList';
 import ContactForm from './ContactForm';
-import { Container, TitleName } from './App.styled';
+import { Container, TitleName, FormBox } from './App.styled';
 import { toastWindow } from './Helpers';
 
 function App() {
@@ -21,11 +21,13 @@ function App() {
 
 	return (
 		<Container>
-			<TitleName>Phonebook</TitleName>
+			<FormBox>
+				<TitleName>Phonebook</TitleName>
 
-			<ContactForm />
+				<ContactForm />
 
-			<TitleName>Contacts</TitleName>
+				<TitleName>Contacts</TitleName>
+			</FormBox>
 
 			<Filter />
 

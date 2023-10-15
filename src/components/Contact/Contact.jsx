@@ -67,8 +67,9 @@ function Contact(contact) {
 
 	useEffect(() => {
 		if (editEnable) {
-			nameInput.current.style = 'background-color: #fefbe0;';
-			numberInput.current.style = 'background-color: #fefbe0;';
+			nameInput.current.style = 'background-color: #fefbf0;';
+			numberInput.current.style = 'background-color: #fefbf0;';
+			nameInput.current.focus();
 		} else {
 			nameInput.current.style = 'background-color: transparent;';
 			numberInput.current.style = 'background-color: transparent;';
@@ -90,7 +91,7 @@ function Contact(contact) {
 		schema
 			.validate(contact)
 			.then(() => {
-				const status = checkContact(contacts, contact.name);
+				const status = checkContact(contacts, contact.name, contact.id);
 				if (!status) {
 					setEditEnable(false);
 					cancelPutContact.current = dispatch(fetchPutContact(contact));
